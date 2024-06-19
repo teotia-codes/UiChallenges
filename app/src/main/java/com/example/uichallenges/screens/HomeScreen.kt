@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -64,7 +67,9 @@ fun HomeScreen() {
             .background(DeepBlue)
             .fillMaxSize()
     ) {
-        Column {
+        Column(
+            modifier = Modifier.systemBarsPadding()
+        ) {
             GreetingSection()
             ChipSection(chips = listOf("Sweet sleep", "Insomnia", "Depression"))
             CurrentMeditation()
@@ -100,17 +105,18 @@ fun HomeScreen() {
                     )
                 )
             )
-            BottomMenu(
-                items = listOf(
+
+
+
+        }
+        BottomMenu(
+            items = listOf(
                 BottomMenuData("Home", R.drawable.ic_home),
                 BottomMenuData("Meditate", R.drawable.ic_bubble),
                 BottomMenuData("Sleep", R.drawable.ic_moon),
                 BottomMenuData("Music", R.drawable.ic_music),
                 BottomMenuData("Profile", R.drawable.ic_profile)
-            ))
-
-
-        }
+            ), modifier = Modifier.align(Alignment.BottomCenter))
     }
 
 
@@ -119,21 +125,26 @@ fun HomeScreen() {
 @Composable
 fun GreetingSection() {
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround
     ) {
         Column(
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(15.dp)
         ) {
             Text(
                 text = "Good Morning",
-                style = MaterialTheme.typography.headlineLarge
+                color = TextWhite,
+                style = MaterialTheme.typography.headlineLarge,
             )
             Text(
                 text = "We wish you have a good day",
-                style = MaterialTheme.typography.bodySmall
+                color = TextWhite,
+                style = MaterialTheme.typography.bodySmall,
+
             )
         }
+        Spacer(modifier = Modifier.width(100.dp))
         Icon(
             painter = painterResource(id = R.drawable.ic_search),
             contentDescription = "Search",
@@ -194,7 +205,8 @@ fun CurrentMeditation(color: Color = LightRed) {
         ) {
             Text(
                 text = "Daily Thought",
-                style = MaterialTheme.typography.headlineLarge
+                color = TextWhite,
+                fontSize = 24.sp
             )
             Text(
                 text = "Meditation * 3-10 min",
@@ -205,9 +217,12 @@ fun CurrentMeditation(color: Color = LightRed) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(40.dp)
                 .clip(CircleShape)
-                .padding(10.dp)
+                .background(DeepBlue)
+                .size(40.dp)
+
+
+
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_play),
@@ -216,12 +231,7 @@ fun CurrentMeditation(color: Color = LightRed) {
                 modifier = Modifier.size(16.dp)
             )
         }
-        Icon(
-            painter = painterResource(id = R.drawable.ic_search),
-            contentDescription = "Search",
-            tint = Color.White,
-            modifier = Modifier.size(24.dp)
-        )
+
     }
 }
 
@@ -234,6 +244,7 @@ fun FeatureSection(
     ) {
         Text(
             text = "Features",
+            color = TextWhite,
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier.padding(15.dp)
         )
@@ -261,15 +272,17 @@ fun FeatureItem(feature: Feature) {
             .padding(7.5.dp)
             .aspectRatio(1f)
             .clip(RoundedCornerShape(10.dp))
-            .background(Color.Blue.copy(alpha = 0.6f))
+            .background(feature.darkColor.copy(alpha = 0.6f))
     ) {
         Column(
             verticalArrangement = Arrangement.SpaceAround
         ) {
             Text(
                 text = feature.title,
-                style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Start
+                style = MaterialTheme.typography.headlineSmall,
+                textAlign = TextAlign.Start,
+                color = TextWhite,
+                modifier = Modifier.padding(15.dp)
             )
         }
 
@@ -290,7 +303,7 @@ fun FeatureItem(feature: Feature) {
                 .align(Alignment.BottomEnd)
                 .clip(RoundedCornerShape(10.dp))
                 .background(ButtonBlue)
-                .padding(vertical = 10.dp, horizontal = 20.dp))
+                .padding(vertical = 5.dp, horizontal = 15.dp))
     }
 }
 
@@ -350,7 +363,7 @@ Box (
             if (isSelected)
                 activeColor
             else
-                inactiveColor
+                Color.Transparent
         )
         .padding(10.dp)
 ){
