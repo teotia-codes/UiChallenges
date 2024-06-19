@@ -5,12 +5,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -26,12 +31,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.uichallenges.BottomMenuData
+import com.example.uichallenges.Feature
 import com.example.uichallenges.R
+import com.example.uichallenges.ui.theme.AquaBlue
+import com.example.uichallenges.ui.theme.Beige1
+import com.example.uichallenges.ui.theme.Beige2
+import com.example.uichallenges.ui.theme.Beige3
+import com.example.uichallenges.ui.theme.BlueViolet1
+import com.example.uichallenges.ui.theme.BlueViolet2
+import com.example.uichallenges.ui.theme.BlueViolet3
 import com.example.uichallenges.ui.theme.ButtonBlue
 import com.example.uichallenges.ui.theme.DarkerButtonBlue
 import com.example.uichallenges.ui.theme.DeepBlue
+import com.example.uichallenges.ui.theme.LightGreen1
+import com.example.uichallenges.ui.theme.LightGreen2
+import com.example.uichallenges.ui.theme.LightGreen3
 import com.example.uichallenges.ui.theme.LightRed
+import com.example.uichallenges.ui.theme.OrangeYellow1
+import com.example.uichallenges.ui.theme.OrangeYellow2
+import com.example.uichallenges.ui.theme.OrangeYellow3
 import com.example.uichallenges.ui.theme.TextWhite
 
 @Composable
@@ -43,8 +66,50 @@ fun HomeScreen() {
     ) {
         Column {
             GreetingSection()
-            ChipSection(chips = listOf("Sweet sleep", "Insomnia" , "Depression"))
+            ChipSection(chips = listOf("Sweet sleep", "Insomnia", "Depression"))
             CurrentMeditation()
+            FeatureSection(
+                features = listOf(
+                    Feature(
+                        title = "Sleep meditation",
+                        R.drawable.ic_headphone,
+                        BlueViolet1,
+                        BlueViolet2,
+                        BlueViolet3
+                    ),
+                    Feature(
+                        title = "Tips for sleeping",
+                        R.drawable.ic_videocam,
+                        LightGreen1,
+                        LightGreen2,
+                        LightGreen3
+                    ),
+                    Feature(
+                        title = "Night island",
+                        R.drawable.ic_headphone,
+                        OrangeYellow1,
+                        OrangeYellow2,
+                        OrangeYellow3
+                    ),
+                    Feature(
+                        title = "Calming sounds",
+                        R.drawable.ic_headphone,
+                        Beige1,
+                        Beige2,
+                        Beige3
+                    )
+                )
+            )
+            BottomMenu(
+                items = listOf(
+                BottomMenuData("Home", R.drawable.ic_home),
+                BottomMenuData("Meditate", R.drawable.ic_bubble),
+                BottomMenuData("Sleep", R.drawable.ic_moon),
+                BottomMenuData("Music", R.drawable.ic_music),
+                BottomMenuData("Profile", R.drawable.ic_profile)
+            ))
+
+
         }
     }
 
@@ -104,7 +169,7 @@ fun ChipSection(
                     .padding(15.dp)
             )
             {
-              Text(text = chips[it], color = TextWhite)
+                Text(text = chips[it], color = TextWhite)
             }
         }
     }
@@ -137,17 +202,19 @@ fun CurrentMeditation(color: Color = LightRed) {
                 color = TextWhite
             )
         }
-        Box (
+        Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
                 .padding(10.dp)
-        ){
-           Icon(painter = painterResource(id = R.drawable.ic_play),
-               contentDescription = "Play",
-               tint = Color.White,
-               modifier = Modifier.size(16.dp))
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_play),
+                contentDescription = "Play",
+                tint = Color.White,
+                modifier = Modifier.size(16.dp)
+            )
         }
         Icon(
             painter = painterResource(id = R.drawable.ic_search),
@@ -156,4 +223,145 @@ fun CurrentMeditation(color: Color = LightRed) {
             modifier = Modifier.size(24.dp)
         )
     }
+}
+
+@Composable
+fun FeatureSection(
+    features: List<Feature>,
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = "Features",
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.padding(15.dp)
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
+            modifier = Modifier.fillMaxHeight()
+        )
+        {
+            items(features.size) {
+                FeatureItem(feature = features[it])
+            }
+
+        }
+    }
+
+
+}
+
+
+@Composable
+fun FeatureItem(feature: Feature) {
+    Box(
+        modifier = Modifier
+            .padding(7.5.dp)
+            .aspectRatio(1f)
+            .clip(RoundedCornerShape(10.dp))
+            .background(Color.Blue.copy(alpha = 0.6f))
+    ) {
+        Column(
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(
+                text = feature.title,
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Start
+            )
+        }
+
+        Icon(
+            painter = painterResource(id = feature.iconId), contentDescription = "",
+            tint = Color.White,
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomStart)
+        )
+        Text(text = "Start",
+            color = Color.White,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .clickable { }
+                .padding(16.dp)
+                .align(Alignment.BottomEnd)
+                .clip(RoundedCornerShape(10.dp))
+                .background(ButtonBlue)
+                .padding(vertical = 10.dp, horizontal = 20.dp))
+    }
+}
+
+
+@Composable
+fun BottomMenu(
+    items: List<BottomMenuData>,
+    modifier: Modifier = Modifier,
+    activeColor: Color = ButtonBlue,
+    activeTextColor: Color = Color.White,
+    inactiveColor: Color = AquaBlue,
+    iconIndex: Int = 0,
+) {
+    var selectedItemindex by remember {
+        mutableStateOf(iconIndex)
+    }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(DeepBlue)
+            .padding(15.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        items.forEachIndexed { index, item ->
+BottomMenuItem(item = item,
+    isSelected = index == selectedItemindex,
+    activeColor = activeColor,
+    activeTextColor = activeTextColor,
+    inactiveColor = inactiveColor,) {
+
+    selectedItemindex = index
+}
+        }
+
+    }
+}
+
+@Composable
+fun BottomMenuItem(item : BottomMenuData,
+                   isSelected:Boolean = false,
+                   activeColor: Color = ButtonBlue,
+                   activeTextColor: Color = Color.White,
+                   inactiveColor: Color = AquaBlue,
+                   onItemClick: ()->Unit) {
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.clickable { onItemClick() }
+    ) {
+Box (
+    contentAlignment = Alignment.Center,
+    modifier = Modifier
+        .clip(RoundedCornerShape(10.dp))
+        .background(
+            if (isSelected)
+                activeColor
+            else
+                inactiveColor
+        )
+        .padding(10.dp)
+){
+Icon(painter = painterResource(id = item.icon),
+    contentDescription ="",
+    tint = if (isSelected)activeTextColor else inactiveColor,
+    modifier = Modifier.size(20.dp))
+
+}
+        Text(text = item.title,
+            color = if (isSelected)activeTextColor else inactiveColor)
+    }
+
 }
